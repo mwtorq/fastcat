@@ -1,0 +1,5 @@
+SELECT [DogID]
+      ,[DogName]
+      ,[Breed]
+      ,[Owner]
+  FROM [FastCAT].[sAKC].[Dogs]
