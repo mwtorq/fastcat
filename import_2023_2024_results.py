@@ -66,7 +66,8 @@ def read_excel_data(excel_file):
         sys.exit(1)
     
     try:
-        df = pd.read_excel(excel_file, engine='openpyxl')
+        # Read Excel file - openpyxl preserves date formats better
+        df = pd.read_excel(excel_file, engine='openpyxl', keep_default_na=False)
         print(f"Read {len(df)} rows from Excel file")
         print(f"Columns: {', '.join(df.columns.tolist())}")
         return df
@@ -124,7 +125,57 @@ def normalize_data(df):
     
     # Convert EventDate to datetime if it's not already
     if 'EventDate' in df.columns:
-        df['EventDate'] = pd.to_datetime(df['EventDate'], errors='coerce')
+        from datetime import datetime
+        
+        # Store original values for potential Excel serial date conversion
+        original_values = df['EventDate'].copy()
+        
+        # First, try standard datetime conversion
+        df['EventDate'] = pd.to_datetime(df['EventDate'], errors='coerce', infer_datetime_format=True)
+        
+        # Check for dates that are suspiciously early (like 1970-01-01) - these might be Excel serial dates
+        # or incorrectly converted numeric values
+        suspicious_dates = df['EventDate'].notna() & (df['EventDate'] < pd.Timestamp('2000-01-01'))
+        
+        if suspicious_dates.any():
+            # Get indices of suspicious dates
+            suspicious_indices = df.index[suspicious_dates]
+            
+            # Try to convert original values as Excel serial dates
+            original_numeric = pd.to_numeric(original_values.loc[suspicious_indices], errors='coerce')
+            excel_serial_mask = original_numeric.notna() & (original_numeric >= 1) & (original_numeric < 1000000)
+            
+            if excel_serial_mask.any():
+                # Convert Excel serial dates (Excel epoch is 1899-12-30)
+                excel_epoch = datetime(1899, 12, 30)
+                serial_indices = suspicious_indices[excel_serial_mask]
+                serial_values = original_numeric[excel_serial_mask]
+                
+                # Convert serial dates
+                for idx, val in zip(serial_indices, serial_values):
+                    try:
+                        dt = excel_epoch + pd.Timedelta(days=float(val))
+                        # Only use if it's in a reasonable date range (2000-2100)
+                        if pd.Timestamp('2000-01-01') <= dt <= pd.Timestamp('2100-01-01'):
+                            df.loc[idx, 'EventDate'] = dt
+                        else:
+                            df.loc[idx, 'EventDate'] = None
+                    except:
+                        df.loc[idx, 'EventDate'] = None
+        
+        # Filter out any remaining invalid dates (before 2000 or after 2100)
+        valid_dates = df['EventDate'].notna()
+        if valid_dates.any():
+            invalid_date_mask = (df['EventDate'] < pd.Timestamp('2000-01-01')) | (df['EventDate'] > pd.Timestamp('2100-01-01'))
+            if invalid_date_mask.any():
+                invalid_count = invalid_date_mask.sum()
+                print(f"Warning: Found {invalid_count} invalid dates (before 2000 or after 2100), setting to None")
+                # Show some examples
+                if invalid_count <= 10:
+                    invalid_examples = original_values[invalid_date_mask].tolist()
+                    print(f"  Original values that couldn't be converted: {invalid_examples}")
+                df.loc[invalid_date_mask, 'EventDate'] = None
+        
         # Extract Year from EventDate if Year column doesn't exist or is empty
         if 'Year' not in df.columns or df['Year'].isna().all():
             if df['EventDate'].notna().any():
@@ -343,6 +394,25 @@ def main():
         # Normalize data
         df = normalize_data(df)
         
+        # Filter to only include records from 2023 and 2024
+        original_count = len(df)
+        if 'Year' in df.columns:
+            df = df[df['Year'].isin([2023, 2024])]
+            filtered_count = len(df)
+            if filtered_count < original_count:
+                print(f"\nFiltered out {original_count - filtered_count:,} records not from 2023-2024")
+                print(f"Keeping {filtered_count:,} records from 2023-2024")
+        elif 'EventDate' in df.columns:
+            # Filter by EventDate if Year column doesn't exist
+            date_mask = (df['EventDate'] >= pd.Timestamp('2023-01-01')) & (df['EventDate'] < pd.Timestamp('2025-01-01'))
+            df = df[date_mask]
+            filtered_count = len(df)
+            if filtered_count < original_count:
+                print(f"\nFiltered out {original_count - filtered_count:,} records not from 2023-2024")
+                print(f"Keeping {filtered_count:,} records from 2023-2024")
+        else:
+            print("Warning: Cannot filter by year - neither Year nor EventDate column found")
+        
         # Insert data in normalized form
         event_id_map = insert_events(conn, df)
         dog_id_map = insert_dogs(conn, df)
@@ -362,3 +432,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
