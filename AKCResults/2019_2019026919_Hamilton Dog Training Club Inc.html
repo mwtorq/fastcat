@@ -1,0 +1,2347 @@
+<html>
+    <head>
+    <meta name="robots" content="noindex,nofollow">
+    <title>American Kennel Club - Show Search</title>
+    <script language="JavaScript1.1" src="/js/Layout.js" type="text/javascript"></script>
+    
+				<!-- JQuery package version management - for use with JQueryManager -->
+				<script type="text/javascript" 
+					src="/libraries/jquery/versions.js">
+				</script>
+			
+				<!-- JQuery core imported with JQueryManager -->
+				<script type="text/javascript" 
+					src="/libraries/jquery/1.4.2/jquery-1.4.2.js">
+				</script>
+				<script type="text/javascript">
+					Versions.add('jquery', '1.4.2', jQuery.noConflict(true));
+				</script>				
+			
+				<script type="text/javascript">
+					$ = jQuery = Versions.use('jquery', '1.4.2');
+				</script>				
+			
+				<!-- Stylesheet imported with JQueryManager -->
+				<link rel="stylesheet" type="text/css" 
+						href="/libraries/jquery/ui/1.7.1/base/ui.all.css" media="screen"></link>
+			
+				<!-- JQuery plugin imported with JQueryManager -->
+				<script type="text/javascript" 
+					src="/libraries/jquery/ui/1.8.2/jquery-ui-1.8.2.min.js">
+				</script>
+			
+				<!-- JQuery plugin imported with JQueryManager -->
+				<script type="text/javascript" 
+					src="/libraries/jquery/ui/1.8.1/minified/jquery.ui.dialog.min.js">
+				</script>
+			
+
+<!-- add-to-calendar feature script -->
+
+<link type="text/css" rel="stylesheet" href="/events/search/search_results.css"/>
+<link rel='stylesheet' type='text/css' href='/libraries/jquery/jquery.addtocal.css' />
+<link rel="profile" href="http://microformats.org/profile/hcalendar">
+<script type='text/javascript' src='/libraries/jquery/rfc3339date.js'></script>
+<script type='text/javascript' src='/libraries/jquery/jquery.addtocal.js'></script>
+
+
+
+
+
+
+
+<script type='text/javascript'>
+
+$(document).ready(function() {
+
+    $('div.addtocal').AddToCal({
+      /* ical and vcal require an ics or vcs file to be served.
+       * Since we don't have a server for this demo, these features are disabled.
+       * As a result the 30boxes, iCal and vCalendar menu links will not appear
+       */
+      icalEnabled:true,
+      vcalEnabled:false,
+
+      /* getEventDetails is the most critical function to provide.
+       * It is called when a user selects a calendar to add an event to.
+       * The element parameter is the jQuery object for the event invoked.
+       * You must return an object packed with the relevant event details.
+       * How you determine the event attributes will depend on your page.
+       * The example below illustrates how to handle two formats of event markup.
+       */
+      getEventDetails: function( element ) {
+
+        var
+          dtstart_element = element.find('.dtstart'), start,
+          dtend_element = element.find('.dtend'), end,
+          icsFile_element = element.find('.icsFile'), icsFile,
+          title_element = element.find('.summary'), title,
+          details_element = element.find('.description'), details;
+          event_location = element.find('.where'), event_location;
+        // in this demo, we attempt to get hCalendar attributes or otherwise just dummy the values
+        start = dtstart_element.length ? dtstart_element.attr('title') : new Date();
+        if(dtend_element.length) {
+          end = dtend_element.attr('title');
+        } else {
+          end = new Date();
+          end.setTime(end.getTime() + 60 * 60 * 1000);
+        }
+        if(event_location.length) {
+          event_location = event_location.html();
+        } else {
+          event_location= null;
+        }
+        //alert($('.where').html());
+        title = title_element.length ? title_element.attr('title') : element.attr('id');
+        icsFile = icsFile_element.attr('title');
+        details = details_element.length ? details_element.html() : element.html();
+          //location = location_element.length ? location_element.html() : element.html();
+        // return the required event structure
+        return {
+          webcalurl: null,
+          icalurl: icsFile,
+          vcalurl: '/libraries/jquery/Update.vcs',
+          start: start,
+          end: end,
+          title: title,
+          details: details,
+          location: event_location,
+          url: null
+          };
+      }
+    });
+
+
+
+  });
+
+
+
+
+    function openWin( windowURL, windowName, windowFeatures ) {
+	return window.open( windowURL, windowName, windowFeatures ) ;
+    }
+
+    function PopThis(theURL, w, h){
+        ver = parseInt(navigator.appVersion.substring(0,1));       newWin=window.open(theURL,"ipix_pop","width="+w+",height="+h+",menubar=no,toolbar=no,status=no,resizable=yes,scrollbars=yes,");
+        if ((!((navigator.appName == "Netscape")&&(ver==2))) && (!((navigator.appName == "Microsoft Internet Explorer")&&(ver<4)))){
+          setTimeout("if (newWin) newWin.focus();",1000);
+    	}
+	}
+</script>
+<link rel='stylesheet' type='text/css' href='/layouts/Standard/jquery/ui/redmond/jquery-ui-redmond-1.8.16.css' />
+
+
+
+</head>
+
+
+    
+
+
+
+				<script type="text/javascript">
+					$ = jQuery = Versions.use('jquery', '1.4.2');
+				</script>
+
+
+
+
+<style type='text/css'>
+.addtocal {
+	/*display: inline-block;
+	margin:0 1em 0 0;*/
+	padding:4px;
+	text-align:center;
+	/**/width: 220px;
+}
+
+
+ul.ui-addtocal {
+   /* list-style: inside disc;  */
+}
+
+li.ui-addtocal {
+}
+
+.ui-widget-content {
+	background: url("/layouts/Standard/jquery/ui/redmond/images/ui-bg_inset-hard_100_fcfdfd_1x100.png") repeat-x scroll 50% bottom #FCFDFD;
+	border: 1px solid #CC6633;
+	color: #222222;
+	width: 220px;
+}
+</style>
+
+
+    <body bgcolor="#FFFFFF" style="background-color: White; font-family: arial, helvetica, sans-serif;">
+
+
+    <style>
+    HR.back {
+    color: black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+    HR.back_two {
+    color: black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+</style>
+
+
+<a name="top"></a>
+
+
+
+
+    <table width="100%" height="550" border="0" cellspacing="0" cellpadding="0"><tr><td valign="top">
+
+
+
+    
+    <div style="margin-bottom: 5px; margin-left: 5px; margin-right: 5px; margin-top: 5px;">
+
+    
+<script language="JavaScript">
+	function CloseWindow() 
+	{ 
+		window.close()
+	}
+	
+</script>
+
+		
+
+<center>
+
+<table width="700" border="0" cellspacing="0" cellpadding="0" align="center">
+    <tr>
+      <td width="100">
+         <a class="imagelink" href="javascript:window.print()"><img src="images/img_printthis.gif" alt="" width="90" height="45" border="0"></a>
+      </td>
+     <td width="200" align="right"><img src="images/AKClogo_top.GIF" alt="" width="175" height="68" border="0"></td>
+     <td width="300" align="center" valign="middle"><br><strong><font face="Arial" size="+1">Event Information</font></strong></td>
+     <td width="100">
+          <a class="imagelink" href="javascript:window.close()"><img src="images/img_closetthis.gif" alt="" width="90" height="45" border="0"></a>
+      </td>
+
+     </tr>
+    </table>         
+<br> 
+
+
+
+
+
+<font size=+2><b>Hamilton Dog Training Club, Inc. </b></font><br>
+Sunday, June 16, 2019 
+<br>
+
+Held at K9 Splash Zone , 9386 National Rd. 
+<br>
+Brookville, OH<br> Web Site:<a href="http://www.hamiltondogtraining.com">http://www.hamiltondogtraining.com</a><br> 
+
+<div id='id='event-'' class='addtocal vevent'>
+
+    <div class="summary" title="Hamilton Dog Training Club, Inc."><a class"white" href="javascript:void(0)">Add event to your calendar.</a></div>
+    <span class="icsFile" title="update.cfm?action=event_info&event_number=2019026919&cde_comp_group=&cde_comp_type=FCAT&NEW_END_DATE1=&key_stkhldr_event=&mixed_breed=N"></span>
+    <span class="dtstart date" title="20190616T080000Z"></span>
+    <span class="dtend date" title="20190616T220000Z"></span>
+	<div class="description" style="display:none;">Event No: 2019026919</div>
+
+
+    <div class="where" style="display:none;"> 
+		K9 Splash Zone 
+            , 9386 National Rd. Brookville, OH    
+    </div>
+
+
+</div>
+
+
+Entries Close: Wednesday, June 12, 2019, 6:00 p.m.<br> Event Status: <font style="font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; color:green;">Approved</font>
+	<br> <em>For additional information contact:</em><br>
+  Katie Maess, Event Secretary<br>
+  8872 SNIDER RD <br> MASON, OH 45040-9275<br> (513) 459-9613<br>&nbsp;&nbsp;
+<a href="mailto:trialsecy@gmail.com" class="white">trialsecy@gmail.com</a><br> 
+</center>
+
+<br>
+<hr>
+<center><font size=+1><b>Competition Types Offered</b></font></center>
+<br>
+
+
+<script language="JavaScript">
+	function CloseWindow() 
+	{ 
+		window.close()
+	}
+	
+</script>
+
+<style>
+    .small_br {
+    	font-family: Arial;
+    	font-size: 3px;
+    }
+</style>
+
+ <font face="arial,sans-serif" size="-1">
+<div align=right> 
+		
+		<a class="print" href="javascript:PopIt('http://www.apps.akc.org/apps/events/search/index_results.cfm?action=event_info&comp_type=FCAT&status=RSLT&int_ref=1&event_number=2019026919&cde_comp_group=FCAT&print', 800, 500)">
+			Printer Friendly Page
+		</a>
+		
+		</div>
+<div align=right><a class="white" href="index.cfm">New Search</a></div>
+<div align=right><a class="white" href="index.cfm?action=plan&event_number=2019026919">Back</a></div> 
+
+<script language="JavaScript">
+<!--
+	function openWin( windowURL, windowName, windowFeatures ) { 
+		return window.open( windowURL, windowName, windowFeatures ) ; 
+	} 
+// -->
+</script>
+<div align=right></div>
+
+<table border=0>
+ <tr><td valign=top colspan=8>
+ <tr><td><br></td>
+     <td><br></td>
+     <td><br></td>
+     <td><br></td>
+     <td><br></td>
+     <td><br></td>
+     <td><br></td>
+     <td><br></td>
+
+
+
+	
+       <tr><td valign=top colspan=8><div align=center> 
+<font face="sans-serif, Arial, helvetica" size="-1"><font size=+2><b>Hamilton Dog Training Club, Inc.</b></font></div>
+    
+</div>
+
+<div>
+
+<font face="sans-serif, Arial, helvetica" size="-1"> <center>Sunday, June 16, 2019 - </center> 
+    
+</div>
+
+<div>
+
+<font face="sans-serif, Arial, helvetica" size="-1"> <center>Held at K9 Splash Zone</center> 
+    
+</div>
+
+<div>
+
+<font face="sans-serif, Arial, helvetica" size="-1"> <center>Brookville, OH</center> 
+    
+</div>
+
+<div>
+
+      <hr>
+	  	  
+
+
+ 	<br>
+	<font face="sans-serif, arial" size="-2">
+	Click on a group, class, breed, or stake to display the next level of detail.<br>
+Judges' names link to the Searchable Judges Directory. Dogs' names link to the online store, where you can order reports such as a research pedigree.<br>
+<br>
+<strong>All</strong> results reflect the dogs' <strong>current</strong> owners.
+	</font>
+	<br>
+	<br>  
+</div>
+
+<div>
+
+      <tr><td valign=top colspan=6>
+<font face="sans-serif, Arial, helvetica" size="-1"> 
+    <b> </b></td>
+
+  
+</div>
+
+<div>
+
+
+      <tr><td valign=top></td><td valign=top colspan=4>
+<font face="sans-serif, Arial, helvetica" size="-1"> 
+                    <div align="center">
+                        <strong>
+                            <a name="1">
+                            <a class="white" href="JavaScript: event_info = openWin('/apps/events/search/index_results.cfm?action=event_info&comp_type=FCAT&status=RSLT&int_ref=1&event_number=2019026919&cde_comp_group=FCAT&cde_comp_type=FCAT&NEW_END_DATE1=&key_stkhldr_event=&mixed_breed=N', 'eventinfo', 'width=800,height=600,toolbar=1,location=0,directories=0,status=0,menuBar=0,scrollBars=1,resizable=1' ); event_info.focus()"><strong>Fast CAT</strong></a>
+                        </strong>
+						
+						</div>
+                </td>
+  
+  
+</div>
+
+<div>
+<td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1"> 
+</div>
+
+<div>
+
+</div>
+
+<div>
+</font></td> 
+</div>
+
+<div>
+<td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1"> 
+</div>
+
+<div>
+
+</div>
+
+<div>
+</font></td> 
+</div>
+
+<div>
+<td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1"> 
+</div>
+
+<div>
+
+</div>
+
+<div>
+</font></td> 
+</div>
+
+<div>
+<td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1"> 
+</div>
+
+<div>
+
+</div>
+
+<div>
+</font></td> 
+</div>
+
+<div>
+<td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1"> 
+</div>
+
+<div>
+
+</div>
+
+<div>
+</font></td> 
+</div>
+
+<div>
+
+      <td valign=top colspan=2> 
+<font face="sans-serif, Arial, helvetica" size="-1">(72 Starters)</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=RN29142802"> Scentsible So Serendipitous BN RE CA FCAT2 CGCA</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Border Terrier</i>
+    
+</div>
+
+<div>
+&nbsp;A Leist/M Leist/R Leist/L Sprando</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   45.8 MPH 22.88</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=RN27643304">CH Pocket Rocket Winter Is Coming </a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Parson Russell Terrier</i>
+    
+</div>
+
+<div>
+&nbsp;T Powell</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   40.0 MPH 20.01</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=DN45409301">GCH CH Caradoc's Stargazing Fin Gall RN CAA FCAT4</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Icelandic Sheepdog</i>
+    
+</div>
+
+<div>
+&nbsp;S Peterson/R PETERSON/S Sucky/B Williams</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   37.1 MPH 24.7</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=SS00524307">Ellis St. Chasing Fireflies </a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Boykin Spaniel</i>
+    
+</div>
+
+<div>
+&nbsp;J Wasson</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   36.9 MPH 24.61</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=DN32538604"> Brynlea Fascinatin' Rhythm RN OA OAJ CAA FCAT3 CGCA</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Pembroke Welsh Corgi</i>
+    
+</div>
+
+<div>
+&nbsp;S Peterson/R PETERSON</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   36.7 MPH 18.34</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=RN25518203"> Lincairn Caught By A Rose CAA FCAT2 CGC TKN</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Cairn Terrier</i>
+    
+</div>
+
+<div>
+&nbsp;J Stuckey</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   35.7 MPH 17.86</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=PAL264532"> Skeeter Herman TKP</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Australian Cattle Dog</i>
+    
+</div>
+
+<div>
+&nbsp;R Herman</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   35.7 MPH 23.81</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=HP49837401">FC Shannon Down Talk Of The Town SC DCAT CGC</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Whippet</i>
+    
+</div>
+
+<div>
+&nbsp;M Burch /S Fife</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   33.9 MPH 33.86</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=PR13915903"> Brownie Mr Wiggles CGCA TKA</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Poodle</i>
+    
+</div>
+
+<div>
+&nbsp;C Sanders</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   33.5 MPH 16.77</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=RN23577801"> Lamz Pirate Bay DCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Bedlington Terrier</i>
+    
+</div>
+
+<div>
+&nbsp;L Zembrzuski/G Gilbeau/R Ball</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   33.4 MPH 22.29</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=DN27997205">MACH2 Starhaven's Recess Anchors My Heart BN RA MXC MJG MXP XF T2B BCAT TKN</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Shetland Sheepdog</i>
+    
+</div>
+
+<div>
+&nbsp;C Immel</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   33.4 MPH 16.68</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=HP55351101"> Shannon Down O-K Go! BCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Whippet</i>
+    
+</div>
+
+<div>
+&nbsp;M Burch/S Lyons/S Fife/K Lyons</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   33.1 MPH 33.09</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=PAL258254"> Rambo JE CAX DCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Silky Terrier</i>
+    
+</div>
+
+<div>
+&nbsp;S Parks</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   32.4 MPH 16.22</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=RN29572405">CH Pocket Rocket Try N Trump This </a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Parson Russell Terrier</i>
+    
+</div>
+
+<div>
+&nbsp;K Williams</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   32.3 MPH 16.14</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=MA58196901"> T'Is Herself Sydney BCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>All American Dog</i>
+    
+</div>
+
+<div>
+&nbsp;K Saxton</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   31.7 MPH 21.12</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=DN39840307"> Roadsend Rainy Day Sunshine BN RI OA OAJ NF DCAT CGC TKN</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Shetland Sheepdog</i>
+    
+</div>
+
+<div>
+&nbsp;C Immel</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   31.0 MPH 20.63</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=WS50802406"> Stahlkrieger's Arsenic And Old Lace DCAT CGC TKI</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Standard Schnauzer</i>
+    
+</div>
+
+<div>
+&nbsp;K Scantland</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   30.5 MPH 20.35</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=DN48072201"> Get Your Mojo Running OA OAJ BCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Miniature American Shepherd</i>
+    
+</div>
+
+<div>
+&nbsp;D Echols</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   30.4 MPH 20.24</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=MA44068001"> Miss Dixie Ray CAA FCAT SCNE SIN SEN TKA</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>All American Dog</i>
+    
+</div>
+
+<div>
+&nbsp;G INGRAM</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   30.4 MPH 20.23</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=HP48697207">CH Willowisp Applause BN RN JC CA BCAT CGC</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Whippet</i>
+    
+</div>
+
+<div>
+&nbsp;N Hofmann</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   30.2 MPH 30.2</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=PAL259338"> Heartfields Joy Of Spring CD RE</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Australian Shepherd</i>
+    
+</div>
+
+<div>
+&nbsp;R Niedenthal</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   30.2 MPH 20.12</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=HP53123702"> Wesann's You Don'T Own Me JC CA BCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Whippet</i>
+    
+</div>
+
+<div>
+&nbsp;S CURTIS</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   29.6 MPH 29.58</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=DN54715001"> R. F. Hawkeye BCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Miniature American Shepherd</i>
+    
+</div>
+
+<div>
+&nbsp;D Echols</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   29.2 MPH 19.44</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=DN53849602"> Roads End Catch A Falling Star (Wish) BCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Shetland Sheepdog</i>
+    
+</div>
+
+<div>
+&nbsp;K York</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   29.0 MPH 19.34</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=RN30577603"> Lfb's Fraser Of Tivoli RN CA BCAT RATN CGC TKN</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Scottish Terrier</i>
+    
+</div>
+
+<div>
+&nbsp;L Berry/D Cambron</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   28.8 MPH 14.41</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=DN31566903">MACH2 Mystical Adula The Girl On Fire RI MXG MJG MXP2 MJP NF BCAT CGC TKN</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Shetland Sheepdog</i>
+    
+</div>
+
+<div>
+&nbsp;K York</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   28.5 MPH 19</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=PAL275381"> Ivy May BCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Belgian Malinois</i>
+    
+</div>
+
+<div>
+&nbsp;S Dawson</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   28.3 MPH 28.27</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=MA52684101"> Parks' Simba CAA BCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>All American Dog</i>
+    
+</div>
+
+<div>
+&nbsp;S Parks</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   28.2 MPH 14.12</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=WS52301401"> Stahlkrieger's Sleeping Beauty BCAT CGC TKI</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Standard Schnauzer</i>
+    
+</div>
+
+<div>
+&nbsp;K Scantland/C Crompton</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   28.0 MPH 18.66</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=MA42720801"> Liver Lips Lucy BN CA BCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>All American Dog</i>
+    
+</div>
+
+<div>
+&nbsp;D WEIMER</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   27.4 MPH 27.4</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=RN28284403">CH Brillwood It's All About Me DCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Parson Russell Terrier</i>
+    
+</div>
+
+<div>
+&nbsp;K Williams</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   27.0 MPH 17.97</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=MA60787901"> Blue Eyed Sparkle CA BCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>All American Dog</i>
+    
+</div>
+
+<div>
+&nbsp;S Parks</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   25.6 MPH 25.57</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=DN53946502">Pandora Prinzess </a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>German Shepherd Dog</i>
+    
+</div>
+
+<div>
+&nbsp;H Farmer</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   25.6 MPH 25.56</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=DN51569601"> Montrose Grant Me Serenity BCAT RATN CGC TKN</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Australian Shepherd</i>
+    
+</div>
+
+<div>
+&nbsp;P Nugent</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   25.4 MPH 25.43</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=WS59678804"> Sunkaska Nothin' But A Heartbreaker CGCA TKI</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Samoyed</i>
+    
+</div>
+
+<div>
+&nbsp;C Snow</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   25.2 MPH 25.2</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=PR20145903"> Dragon Haus Trickster CGC TKN</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Standard Poodle</i>
+    
+</div>
+
+<div>
+&nbsp;K Huling</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   25.1 MPH 25.11</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=WS58960903">Sibersong's The Hood </a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Siberian Husky</i>
+    
+</div>
+
+<div>
+&nbsp;M Moberly</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   24.8 MPH 24.84</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=PAL272697"> Raina Hudson BN RN CA BCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>German Shepherd Dog</i>
+    
+</div>
+
+<div>
+&nbsp;A Hudson</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   24.7 MPH 24.73</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=DN54155705">Cooper Z Loajalni Kral </a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>German Shepherd Dog</i>
+    
+</div>
+
+<div>
+&nbsp;A Hildebrand</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   24.7 MPH 24.71</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=WS39691403"> Link's Forest Melody At Yukikaze BCAT CGC</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Siberian Husky</i>
+    
+</div>
+
+<div>
+&nbsp;M Moberly</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   24.5 MPH 24.46</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=RN31968904">Schunanigan Annie </a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Airedale Terrier</i>
+    
+</div>
+
+<div>
+&nbsp;J Schulte</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   24.3 MPH 24.31</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=RN30328103">CH Donaldmac's Easy On The Eyes BN RN CGC TKI</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Airedale Terrier</i>
+    
+</div>
+
+<div>
+&nbsp;K Zaborniak</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   24.1 MPH 24.08</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=SS01011003"> Ebbtide Fly Me To The Moon JH</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>German Wirehaired Pointer</i>
+    
+</div>
+
+<div>
+&nbsp;K Bunch/G Persinger</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   23.7 MPH 23.7</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=SS02187206"> Shively's Browning White Lightning JH RATO CGC</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>German Shorthaired Pointer</i>
+    
+</div>
+
+<div>
+&nbsp;J Shively</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   23.6 MPH 23.63</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=RN32444303">Sugarbush's Great Expectations </a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Irish Terrier</i>
+    
+</div>
+
+<div>
+&nbsp;A Collini</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   22.8 MPH 22.8</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=WS51422504"> Mandy's Bereit Trooper CGC</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Giant Schnauzer</i>
+    
+</div>
+
+<div>
+&nbsp;D Boetger</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   22.6 MPH 22.63</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=WS60323114"> Jager's Assets N' Attitude SIN SEN CGC</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Doberman Pinscher</i>
+    
+</div>
+
+<div>
+&nbsp;J Overholser</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   22.5 MPH 22.45</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=PR20803905"> Celtichearts Feather O' Dragonhaus CGC TKN</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Standard Poodle</i>
+    
+</div>
+
+<div>
+&nbsp;K Huling</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   22.2 MPH 22.19</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=DN35864807">Nina Sophia Von Weaver </a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>German Shepherd Dog</i>
+    
+</div>
+
+<div>
+&nbsp;C Weaver</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   21.8 MPH 21.82</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=MA51867501"> Buckeye Scarlett BN RI BCAT CGC</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>All American Dog</i>
+    
+</div>
+
+<div>
+&nbsp;K ENSIGN</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   21.6 MPH 21.64</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=HP52957002">Foxboro Small Town Girl </a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Norwegian Elkhound</i>
+    
+</div>
+
+<div>
+&nbsp;D Mercurio</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   21.2 MPH 21.16</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=WS56565902">Von Helden Herz Canine Cassanova </a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Rottweiler</i>
+    
+</div>
+
+<div>
+&nbsp;T Bailey</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   20.8 MPH 20.75</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=SR96947204"> Millstone's Dark Humor BCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Labrador Retriever</i>
+    
+</div>
+
+<div>
+&nbsp;L Suter/A Miller</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   20.0 MPH 19.96</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=PAL275339">Mrs. Lorras SunJai Day </a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Pug</i>
+    
+</div>
+
+<div>
+&nbsp;L Jessup</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   19.7 MPH 9.85</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=WS53785701">Von Helden Herz Atta Gurl </a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Rottweiler</i>
+    
+</div>
+
+<div>
+&nbsp;T Bailey</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   19.5 MPH 19.52</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=SS09852401">Majestic Manor's Poppy </a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Golden Retriever</i>
+    
+</div>
+
+<div>
+&nbsp;C Deason</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   19.5 MPH 19.47</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=SR97805110"> Majestic Manor's Gentle To The Max BCAT</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Golden Retriever</i>
+    
+</div>
+
+<div>
+&nbsp;S Coons</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   19.4 MPH 19.4</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=MA58808501"> Buddy Boy FDC BCAT CGCA TKN</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>All American Dog</i>
+    
+</div>
+
+<div>
+&nbsp;R HATTON/B HATTON</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   18.4 MPH 18.37</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=SR72664303"> Like Water For Chocolate CD BN NAP NJP TKN</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Irish Water Spaniel</i>
+    
+</div>
+
+<div>
+&nbsp;K Mohlman</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts   10.8 MPH 10.79</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=SR78455206">Shively's Ruger </a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>German Shorthaired Pointer</i>
+    
+</div>
+
+<div>
+&nbsp;J Shively</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts    7.3 MPH 7.26</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=PR13128906"> Charmin Albus CDX RE OA NAJ</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Standard Poodle</i>
+    
+</div>
+
+<div>
+&nbsp;R Purvis</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts    6.8 MPH 6.77</font></td>
+    
+</div>
+
+<div>
+
+      <tr><td valign=top></td><td valign=top></td><td valign=top></td><td align=right> 
+<font face="sans-serif, Arial, helvetica" size="-1"></font></td>
+    
+</div>
+
+<div>
+
+     <td colspan=3 valign=top>
+<font face="sans-serif, Arial, helvetica" size="-1"> <a class="white" href="/apps/store/index.cfm?view=product&cde_category=DOG&cde_product=CMPREC&dog_id=SR67679206"> Sirius Ater CDX GN RE NA TKA</a> 
+</div>
+
+<div>
+
+      &nbsp;&nbsp;<i>Labrador Retriever</i>
+    
+</div>
+
+<div>
+&nbsp;V Purvis</td> 
+</div>
+
+<div>
+
+      <td valign=top> 
+<font face="sans-serif, Arial, helvetica" size="-1">  pts    6.5 MPH 6.47</font></td>
+    
+</div>
+
+
+
+ <tr><td><br></td>
+     <td><br></td>
+     <td><br></td>
+     <td><br></td>
+     <td colspan=4 ><br></td>
+</table>
+
+
+</font>
+
+</div>
+
+
+
+
+
+
+</td></tr></table><br><br><br><br>
+<div align="center"><hr width="100%" size="2" class="back"></div>
+<div align="center"><font face="Arial" size="-2">(c) Copyright 2007 - American Kennel Club - All Rights Reserved</font></div>
+
+</body>
+</html>
