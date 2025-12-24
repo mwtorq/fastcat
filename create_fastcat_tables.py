@@ -89,8 +89,10 @@ def create_tables(conn):
                     EventID INT IDENTITY(1,1) PRIMARY KEY,
                     EventNumber NVARCHAR(50) NOT NULL,
                     EventName NVARCHAR(255),
+                    EventLocation NVARCHAR(255),
                     EventDate DATE,
                     Year INT,
+                    EventAddress NVARCHAR(255),
                     City NVARCHAR(100),
                     State NVARCHAR(50),
                     Location NVARCHAR(255),
@@ -106,10 +108,12 @@ def create_tables(conn):
             IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Dogs' AND schema_id = SCHEMA_ID('{SCHEMA}'))
             BEGIN
                 CREATE TABLE [{SCHEMA}].[Dogs] (
-                    DogID INT IDENTITY(1,1) PRIMARY KEY,
+                    DogsID INT IDENTITY(1,1) PRIMARY KEY,
                     DogName NVARCHAR(255) NOT NULL,
                     Breed NVARCHAR(100),
                     Owner NVARCHAR(255),
+                    AKCDogID NVARCHAR(50) NULL,
+                    DogProfile AS 'https://www.apps.akc.org/apps/store/proxy/get_points.cfm?cde_comp_group=CONF&cde_product_type=COMP_REC&regnum=' + ISNULL([AKCDogID], ''),
                     CONSTRAINT UQ_Dogs_DogNameOwner UNIQUE (DogName, Owner)
                 )
             END
@@ -123,15 +127,15 @@ def create_tables(conn):
                 CREATE TABLE [{SCHEMA}].[Results] (
                     ResultID INT IDENTITY(1,1) PRIMARY KEY,
                     EventID INT NOT NULL,
-                    DogID INT NOT NULL,
+                    DogsID INT NOT NULL,
                     Speed DECIMAL(10,2),
-                    Time DECIMAL(10,3),
+                    Time AS CAST(204.545 / NULLIF([Speed], 0) AS DECIMAL(10,3)),
                     Points DECIMAL(10,2),
                     Ranking INT,
-                    Handicap DECIMAL(10,2),
+                    Handicap AS CAST(ROUND([Points] / NULLIF([Speed], 0), 1) AS DECIMAL(10,2)),
                     CONSTRAINT FK_Results_Events FOREIGN KEY (EventID) REFERENCES [{SCHEMA}].[Events](EventID),
-                    CONSTRAINT FK_Results_Dogs FOREIGN KEY (DogID) REFERENCES [{SCHEMA}].[Dogs](DogID),
-                    CONSTRAINT UQ_Results_EventDog UNIQUE (EventID, DogID)
+                    CONSTRAINT FK_Results_Dogs FOREIGN KEY (DogsID) REFERENCES [{SCHEMA}].[Dogs](DogsID),
+                    CONSTRAINT UQ_Results_EventDog UNIQUE (EventID, DogsID)
                 )
             END
         """)
