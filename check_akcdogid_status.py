@@ -45,3 +45,4 @@ with_results = cursor.fetchone()[0]
 print(f"Dogs with NULL/empty AKCDogID that have Results: {with_results}")
 
 conn.close()
+
