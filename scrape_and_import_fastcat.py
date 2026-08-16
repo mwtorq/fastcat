@@ -1381,12 +1381,19 @@ def get_or_insert_dog(conn, dog_name, breed, owner):
     """Get existing dog or insert new one, return (DogID, is_new)"""
     cursor = conn.cursor()
     
+    # The lookup used to normalise a missing owner to '' while the insert normalised it to
+    # NULL, and = never matches NULL anyway. An owner-less dog already in the table could
+    # therefore never be found, so every repeat sent a doomed INSERT into
+    # UQ_Dogs_DogNameOwner and lost the result row.
+    owner_value = owner or None
+    lookup_sql = f"""
+            SELECT DogsID FROM [{SCHEMA}].[Dogs]
+            WHERE DogName = ? AND ISNULL(Owner, '') = ISNULL(?, '')
+        """
+    
     try:
         # Check if dog exists
-        cursor.execute(f"""
-            SELECT DogID FROM [{SCHEMA}].[Dogs]
-            WHERE DogName = ? AND Owner = ?
-        """, dog_name, owner or '')
+        cursor.execute(lookup_sql, dog_name, owner_value)
         
         row = cursor.fetchone()
         if row:
@@ -1395,9 +1402,9 @@ def get_or_insert_dog(conn, dog_name, breed, owner):
         # Insert new dog using OUTPUT clause to get DogID immediately
         cursor.execute(f"""
             INSERT INTO [{SCHEMA}].[Dogs] (DogName, Breed, Owner)
-            OUTPUT INSERTED.DogID
+            OUTPUT INSERTED.DogsID
             VALUES (?, ?, ?)
-        """, dog_name, breed or None, owner or None)
+        """, dog_name, breed or None, owner_value)
         
         # Get the DogID from OUTPUT clause
         row = cursor.fetchone()
@@ -1408,10 +1415,7 @@ def get_or_insert_dog(conn, dog_name, breed, owner):
         else:
             # Fallback: commit and query by name/owner if OUTPUT didn't work
             conn.commit()
-            cursor.execute(f"""
-                SELECT DogID FROM [{SCHEMA}].[Dogs]
-                WHERE DogName = ? AND Owner = ?
-            """, dog_name, owner or '')
+            cursor.execute(lookup_sql, dog_name, owner_value)
             row = cursor.fetchone()
             if row:
                 return row[0], True
@@ -1421,6 +1425,16 @@ def get_or_insert_dog(conn, dog_name, breed, owner):
         
     except pyodbc.Error as e:
         conn.rollback()
+        # The row exists under a spelling of owner this lookup normalises differently.
+        # Reuse it rather than discarding the result that needed it.
+        if 'UNIQUE KEY constraint' in str(e) or 'duplicate key' in str(e).lower():
+            try:
+                cursor.execute(lookup_sql, dog_name, owner_value)
+                row = cursor.fetchone()
+                if row:
+                    return row[0], False
+            except pyodbc.Error:
+                pass
         print(f"        ERROR getting/inserting dog '{dog_name}': {e}", flush=True)
         return None, False
 
@@ -1431,7 +1445,7 @@ def insert_result(conn, event_id, dog_id, speed, points):
     
     try:
         cursor.execute(f"""
-            INSERT INTO [{SCHEMA}].[Results] (EventID, DogID, Speed, Points)
+            INSERT INTO [{SCHEMA}].[Results] (EventID, DogsID, Speed, Points)
             VALUES (?, ?, ?, ?)
         """, event_id, dog_id, speed, points)
         

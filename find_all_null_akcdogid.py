@@ -62,3 +62,4 @@ else:
     print("\nNo dogs found with NULL/empty AKCDogID")
 
 conn.close()
+

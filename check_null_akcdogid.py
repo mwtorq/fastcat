@@ -69,3 +69,4 @@ for row in rows[:5]:
     print(f"   DogsID: {row[0]}, Name: {row[1]}, Owner: {row[2]}")
 
 conn.close()
+
