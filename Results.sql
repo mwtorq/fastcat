@@ -28,14 +28,14 @@ SELECT e.[EventName]
   FROM [FastCAT].[sAKC].[Results] r
   JOIN [FastCAT].[sAKC].[Events] e ON r.EventID=e.EventID
   JOIN [FastCAT].[sAKC].[Dogs] d ON r.DogsID=d.DogsID
-  --WHERE d.Owner LIKE '%Waelterman%'
+  WHERE d.Owner LIKE '%Wa%lterman%'
   --WHERE d.DogName='Winona'
   --AND d.Breed='Belgian Malinois' AND e.Year='2025'
   --WHERE e.EventNumber IN (2025277112,2025277109,2025277110,2025277111,2025277113)
   --WHERE d.Breed='Belgian Malinois' AND e.Year='2025'
-  WHERE d.Breed='Airedale Terrier' AND e.Year='2022'
+  --WHERE d.Breed='Airedale Terrier' AND e.Year='2022'
   --ORDER BY e.Year DESC,e.EventDate DESC,e.EventName,d.Breed,r.DogsID
-  ORDER BY r.Ranking,e.EventDate DESC
+  ORDER BY e.EventDate DESC
 
   select * from [FastCAT].[sAKC].[Events] where eventname is null order by eventdate
   select * from [FastCAT].[sAKC].[Events] where eventnumber in (2025749222,2025065355)
