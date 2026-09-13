@@ -283,6 +283,56 @@ SCHEMA = 'sAKC'
 
 **Authentication:** Windows Authentication (Trusted_Connection=yes)
 
+## Development Environment (Linux / Cursor Cloud Agent)
+
+The project was originally written for Windows (SQL Server Express + Windows
+Authentication + the PowerShell automation under `automation/`). It can also be
+developed and run on Linux via the Cursor Cloud Agent environment defined in
+`.cursor/`:
+
+- `.cursor/environment.json` — declares the `install` and `start` commands.
+- `.cursor/install.sh` — installs the Microsoft ODBC Driver 17 & 18 for SQL
+  Server, unixODBC, a local **SQL Server 2022 (Developer edition)** instance,
+  Google Chrome (for the Selenium scrapers), and a Python virtualenv (`.venv`)
+  with everything in `requirements.txt`.
+- `.cursor/start.sh` — starts the local SQL Server instance each boot and
+  ensures the `FastCAT` database exists.
+
+### Python setup (any Linux host)
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+`requirements.txt` covers `pyodbc`, `pandas`, `openpyxl`, `pyxlsb`, `requests`,
+`urllib3`, `beautifulsoup4`, and `selenium`.
+
+### Local SQL Server credentials
+
+The local instance uses SQL Server authentication. The `sa` password is taken
+from the `MSSQL_SA_PASSWORD` environment variable (set it as a Cursor secret for
+a stable value); if unset, `.cursor/install.sh` generates a strong password and
+caches it in the gitignored file `.cursor/.mssql_sa_password`. Nothing sensitive
+is committed to the repository.
+
+Connect from `sqlcmd` or `pyodbc` with, for example:
+
+```
+DRIVER={ODBC Driver 18 for SQL Server};SERVER=127.0.0.1,1433;DATABASE=FastCAT;
+UID=sa;PWD=<password>;Encrypt=no;TrustServerCertificate=yes;
+```
+
+> **Note — running the data scripts on Linux:** the scripts currently hardcode
+> `SERVER = r'localhost\SQLEXPRESS'`, `Trusted_Connection=yes` (Windows
+> Authentication), and `ODBC Driver 17`. Windows Authentication is not available
+> against SQL Server on Linux, so to run the scripts unmodified here their
+> connection settings would need to become configurable (e.g. read
+> `SERVER`/`UID`/`PWD`/driver from environment variables, defaulting to the
+> current Windows values). That application-code change is intentionally **not**
+> included in the environment setup; it is proposed as a follow-up.
+
 ## Dependencies
 
 Common dependencies used across scripts:
